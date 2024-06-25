@@ -1,0 +1,21 @@
+OTOPARKLAR                              DOLULUK ORANI
+Gökkuşağı Otoparkı                       %5  
+Yıldızlı Park                            %8
+Çiçek Bahçesi Garajı                     %80  
+Hızlı Rampa Parking                      %90 
+Mavi Lagün Otopark                       %6  
+Zirve Zemin Garaj                        %40
+Rüzgarlı Teras Otopark                   %55
+Akustik Alan Parking                     %7
+Ay Işığında Park                         %9
+Sessiz Saatler Garajı                    %87  
+Melodi Molası Parking                    %44  
+Safir Spot Otopark                       %6  
+Gölet Girişi Garaj                       %12  
+Deniz Buketi Parking                     %6  
+Kırmızı Güller Alanı                     %44  
+Şelale Şeridi Otopark                    %74     
+Toprak Teras Garaj                       %16
+Gün Batımı Parkı                         %06  
+Kar Küresi Otopark                       %20
+Esintili Ekspres Parking                 %48 

@@ -1,0 +1,306 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-edge" >
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width-device-width, initial-scale=1">
+        <link rel = "stylesheet" href="" >
+        <style>  
+            body {
+              background: url("{%static 'img/carpark.png'%}") no-repeat center center fixed;
+                  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                  margin: 0;
+                  padding: 0;
+                  background-size: cover;
+                  overflow-x: hidden;
+                  text-align: center;
+                  color: aliceblue;
+              }
+              header {
+            background-color: rgb(4, 15, 50);
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header img {
+            width: 60px;
+            margin-right: 10px;
+        }
+
+        header div {
+            display: flex;
+            align-items: center;
+        }
+
+        nav {
+            background-color: #798FCB;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 3px 3px 4px #ffffff;
+            padding: 10px;
+        }
+
+        .left-nav,
+        .right-nav {
+            display: flex;
+        }
+
+        .left-nav a,
+        .right-nav a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .left-nav a:hover,
+        .right-nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .profile-options {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .profile-options a {
+            color: #333;
+            padding: 10px;
+            display: block;
+            text-decoration: none;
+        }
+
+        .profile-options a:hover {
+            background-color: #ddd;
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        select {
+            padding: 15px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            text-shadow: 1px 1px 1px #eaf4ff;
+            color: #100d65;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .text{
+            color: #100d65;
+        }
+        .container {
+    display: flex;
+    justify-content: center;
+    height: 100vh; /* 100 viewport height */
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background-color: #f3f6f8;
+    color: #000000;
+    text-align: center;
+    line-height: 200px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+        </style>
+        <script>
+            function fetchData(filePath, callback) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var data = xhr.responseText;
+                        callback(data.split('\n'));
+                    }
+                };
+                xhr.open('GET', filePath, true);
+                xhr.send();
+            }
+    
+            function createOptions(id, dataList) {
+                var select = document.getElementById(id);
+                select.innerHTML = dataList.map(function (item) {
+                    return '<option value="' + item + '">' + item + '</option>';
+                }).join('');
+            }
+    
+            function ilDegistir() {
+                var selectedCity = document.getElementById('ilSec').value;
+                var districtSelect = document.getElementById('ilceSec');
+    
+                districtSelect.innerHTML = '<option value="">İlçe Seçin</option>';
+    
+                var staticPath = "{% static 'cityfiles/' %}" + selectedCity + "_ilceler.txt";
+    
+                fetchData(staticPath, function (districtList) {
+                    createOptions('ilceSec', districtList);
+                });
+            }
+    
+            function ilceDegistir() {
+                var selectedDistrict = document.getElementById('ilceSec').value;
+                var parkingList = document.getElementById('otoparkListesi');
+    
+                parkingList.innerHTML = '';
+    
+                var staticPath = "{% static 'cityfiles/' %}" + selectedDistrict + "_otoparklar.txt";
+    
+                fetchData(staticPath, function (parkings) {
+                    parkings.forEach(function (parking) {
+                        var listItem = document.createElement('li');
+                        listItem.textContent = parking;
+                        parkingList.appendChild(listItem);
+                    });
+                });
+            }
+    
+            // Set initial value for staticPath
+            var initialCity = ""; // Replace with your default city
+            var staticPath = "{% static 'cityfiles/' %}" + initialCity + "_ilceler.txt";
+    
+            // Fetch initial data
+            fetchData('{% static "cityfiles/sehirler.txt" %}', function (cityList) {
+                createOptions('ilSec', cityList);
+            });
+    
+            function showProfileOptions() {
+                var profileOptions = document.getElementById('profileOptions');
+                profileOptions.style.display = 'block';
+            }
+    
+            function hideProfileOptions() {
+                var profileOptions = document.getElementById('profileOptions');
+                profileOptions.style.display = 'none';
+            }
+        </script>
+    </head>
+    <body>
+
+        {% for message in messages %}
+        <div class="alert alert-- {{ message.tags}} alert-dismissible fade show" role="alert" >
+            <strong>Message :</strong> {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" >
+                <span aria-hidden="true" >&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        <h3>Welcome to CarPark</h3>
+
+        {% if user.is_authenticated %}
+        <header>
+            <div>
+                <a href="#"><img src="{% static 'img/logo.ico' %}" alt=""></a>
+                <p>CARPARK</p>
+            </div>
+            <div class="nav-buttons">
+                <div class="left-nav" onmouseover="showProfileOptions()" onmouseout="hideProfileOptions()">
+                    <a href="#" id="profileLink">Profile</a>
+                    <div class="profile-options" id="profileOptions">
+                        <a class="secondary" href="/signout">Sign Out</a>
+                        <a href="{% url 'password_change' %}">Change Password</a>                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <nav>
+            <div class="left-nav">
+                <a href="#">HOMEPAGE</a>
+                <a href="#">CHANGE</a>
+            </div>
+            <div class="right-nav">
+                <a href="#">SUBSCRIPTION</a>
+                <a href="#">INFO</a>
+            </div>
+        </nav>
+        <h3>Hello {{ fname }}</h3>
+        <h4>You are successfully logged in.</h4>
+        <h2>CARPARK</h2>
+    
+        <form id="carparkForm">
+            <label for="ilSec" class="text">Şehir Seçin:</label>
+            <select id="ilSec" name="ilSec" onchange="ilDegistir()"></select>
+    
+            <label for="ilceSec" class="text">İlçe Seçin:</label>
+            <select id="ilceSec" name="ilceSec" onchange="ilceDegistir()"></select>
+        </form>
+        <br>
+        <br>
+        <form>
+            <label for="otoparkListesi" class="text">Otopark Listesi:</label>
+            <ul id="otoparkListesi"></ul>
+        </form>
+    
+    {% else %}
+    <div class="container">
+    <div class="box">
+        <a  href="/signup">Sign Up</a>
+    </div>
+    <div class="box">
+    
+        <a href="/signin">Sign In</a>
+    </div>
+   
+    {% endif %}
+
+     
+    </body>
+</html>

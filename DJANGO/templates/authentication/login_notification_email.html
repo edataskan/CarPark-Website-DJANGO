@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARPARK</title>
+    <link rel="icon" href="{% static 'img/logo.ico' %}">
+    <style>  
+        body {
+          background: url("{%static 'img/carpark.png'%}") no-repeat center center fixed;
+              font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+              margin: 0;
+              padding: 0;
+              background-size: cover;
+              overflow-x: hidden;
+              text-align: center;
+              color: aliceblue;
+          }
+          </style>
+</head>
+<body>
+    <p>Merhaba {{ user.username }},</p>
+    <p>Başarıyla giriş yaptınız. Hesabınıza erişim sağlandı.</p>
+    <p>İyi günler!</p>
+</body>
+</html>
